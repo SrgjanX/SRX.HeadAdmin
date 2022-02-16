@@ -1,0 +1,2 @@
+﻿cs_assault
+de_dust2

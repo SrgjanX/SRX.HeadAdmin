@@ -1,0 +1,5 @@
+﻿;All lines starting with ';' are comments.
+
+ServerIP=0.0.0.0
+ServerPort=27015
+RCONPassword=qwe123

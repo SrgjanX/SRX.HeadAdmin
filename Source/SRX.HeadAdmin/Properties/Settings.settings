@@ -1,0 +1,54 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="SRX.HeadAdmin.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="AllowNarrator" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="MapsFilePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Maps.txt</Value>
+    </Setting>
+    <Setting Name="CommentCharacter" Type="System.Char" Scope="Application">
+      <Value Profile="(Default)">;</Value>
+    </Setting>
+    <Setting Name="ConfigFilePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Config.txt</Value>
+    </Setting>
+    <Setting Name="ServerIP" Type="System.String" Scope="User">
+      <Value Profile="(Default)">0.0.0.0</Value>
+    </Setting>
+    <Setting Name="ApplicationName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">SRX.HeadAdmin {version}</Value>
+    </Setting>
+    <Setting Name="ServerPort" Type="System.UInt16" Scope="User">
+      <Value Profile="(Default)">27015</Value>
+    </Setting>
+    <Setting Name="ServerRconPassword" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Temp_SlapPower" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">-1</Value>
+    </Setting>
+    <Setting Name="Temp_BanTime" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Temp_BanReason" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Temp_AllowBan" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Temp_ScanMinutes" Type="System.UInt16" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Temp_ScanSeconds" Type="System.UInt16" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="Temp_IsMapChanged" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Temp_IsNextMapChanged" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
