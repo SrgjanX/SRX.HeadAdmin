@@ -14,6 +14,11 @@ namespace SRX.HeadAdmin.Forms
             InitializeComponent();
         }
 
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
         private void buttonChangNextMap_Click(object sender, EventArgs e)
         {
             Commands.SendRCON($"amx_cvar amx_nextmap {comboChooseMap.Text}");
@@ -28,11 +33,8 @@ namespace SRX.HeadAdmin.Forms
             Maps maps = new Maps();
             maps.ReadMapsText();
             comboChooseMap.Items.AddRange(maps.MapList.ToArray());
-        }
-
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            Close();
+            if (comboChooseMap.Items.Count > 0)
+                comboChooseMap.SelectedIndex = 0;
         }
     }
 }

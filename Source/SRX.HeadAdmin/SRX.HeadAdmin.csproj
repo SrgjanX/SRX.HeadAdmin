@@ -191,7 +191,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Resource Include="Resources\no_image_available.png" />
-    <None Include="logo.png" />
+    <None Include="Resources\logo.png" />
     <Content Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>

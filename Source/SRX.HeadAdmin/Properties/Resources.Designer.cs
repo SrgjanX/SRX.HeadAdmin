@@ -65,7 +65,7 @@ namespace SRX.HeadAdmin.Properties {
         /// </summary>
         public static System.Drawing.Bitmap ldt_logo {
             get {
-                object obj = ResourceManager.GetObject("ldt_logo", resourceCulture);
+                object obj = ResourceManager.GetObject("ldt-logo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

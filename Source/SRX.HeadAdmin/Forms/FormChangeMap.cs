@@ -33,6 +33,8 @@ namespace SRX.HeadAdmin.Forms
             Maps maps = new Maps();
             maps.ReadMapsText();
             comboChooseMap.Items.AddRange(maps.MapList.ToArray());
+            if(comboChooseMap.Items.Count > 0)
+                comboChooseMap.SelectedIndex = 0;
         }
     }
 }

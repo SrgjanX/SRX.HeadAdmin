@@ -78,7 +78,6 @@
             this.buttonSend = new System.Windows.Forms.Button();
             this.panelOutput2 = new System.Windows.Forms.Panel();
             this.lblWebAddress = new System.Windows.Forms.Label();
-            this.picLogo = new System.Windows.Forms.PictureBox();
             this.panelServerInfo = new System.Windows.Forms.Panel();
             this.layoutServerInfo = new System.Windows.Forms.TableLayoutPanel();
             this.lblServerStatus = new System.Windows.Forms.Label();
@@ -88,7 +87,6 @@
             this.lblCommand = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.picMap = new System.Windows.Forms.PictureBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.lblMap = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
@@ -116,6 +114,8 @@
             this.panel7 = new System.Windows.Forms.Panel();
             this.lblSelectedPlayer = new System.Windows.Forms.Label();
             this.mainPanel = new System.Windows.Forms.Panel();
+            this.picMap = new System.Windows.Forms.PictureBox();
+            this.picLogo = new System.Windows.Forms.PictureBox();
             this.contextExecuteCommand.SuspendLayout();
             this.contextConsoleOptions.SuspendLayout();
             this.panelConsole.SuspendLayout();
@@ -134,12 +134,10 @@
             this.panel8.SuspendLayout();
             this.panelOutput1.SuspendLayout();
             this.panelOutput2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.panelServerInfo.SuspendLayout();
             this.layoutServerInfo.SuspendLayout();
             this.miniPanel7.SuspendLayout();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picMap)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel4.SuspendLayout();
             this.miniPanel3.SuspendLayout();
@@ -154,6 +152,8 @@
             this.panelInput1.SuspendLayout();
             this.panel7.SuspendLayout();
             this.mainPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picMap)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // contextExecuteCommand
@@ -166,14 +166,14 @@
             this.toolKick,
             this.toolBan});
             this.contextExecuteCommand.Name = "contextExecuteCommand";
-            this.contextExecuteCommand.Size = new System.Drawing.Size(99, 92);
+            this.contextExecuteCommand.Size = new System.Drawing.Size(117, 100);
             // 
             // toolSlap
             // 
             this.toolSlap.BackColor = System.Drawing.Color.Black;
             this.toolSlap.ForeColor = System.Drawing.Color.Green;
             this.toolSlap.Name = "toolSlap";
-            this.toolSlap.Size = new System.Drawing.Size(98, 22);
+            this.toolSlap.Size = new System.Drawing.Size(116, 24);
             this.toolSlap.Text = "Slap";
             this.toolSlap.Click += new System.EventHandler(this.toolSlap_Click);
             // 
@@ -182,7 +182,7 @@
             this.toolSlay.BackColor = System.Drawing.Color.Black;
             this.toolSlay.ForeColor = System.Drawing.Color.Green;
             this.toolSlay.Name = "toolSlay";
-            this.toolSlay.Size = new System.Drawing.Size(98, 22);
+            this.toolSlay.Size = new System.Drawing.Size(116, 24);
             this.toolSlay.Text = "Slay";
             this.toolSlay.Click += new System.EventHandler(this.toolSlay_Click);
             // 
@@ -191,7 +191,7 @@
             this.toolKick.BackColor = System.Drawing.Color.Black;
             this.toolKick.ForeColor = System.Drawing.Color.Green;
             this.toolKick.Name = "toolKick";
-            this.toolKick.Size = new System.Drawing.Size(98, 22);
+            this.toolKick.Size = new System.Drawing.Size(116, 24);
             this.toolKick.Text = "Kick";
             this.toolKick.Click += new System.EventHandler(this.toolKick_Click);
             // 
@@ -200,7 +200,7 @@
             this.toolBan.BackColor = System.Drawing.Color.Black;
             this.toolBan.ForeColor = System.Drawing.Color.Green;
             this.toolBan.Name = "toolBan";
-            this.toolBan.Size = new System.Drawing.Size(98, 22);
+            this.toolBan.Size = new System.Drawing.Size(116, 24);
             this.toolBan.Text = "Ban";
             this.toolBan.Click += new System.EventHandler(this.toolBan_Click);
             // 
@@ -211,14 +211,14 @@
             this.toolCopy,
             this.toolClear});
             this.contextConsoleOptions.Name = "contextConsoleOptions";
-            this.contextConsoleOptions.Size = new System.Drawing.Size(103, 48);
+            this.contextConsoleOptions.Size = new System.Drawing.Size(127, 68);
             // 
             // toolCopy
             // 
             this.toolCopy.BackColor = System.Drawing.Color.Black;
             this.toolCopy.ForeColor = System.Drawing.Color.Green;
             this.toolCopy.Name = "toolCopy";
-            this.toolCopy.Size = new System.Drawing.Size(102, 22);
+            this.toolCopy.Size = new System.Drawing.Size(126, 32);
             this.toolCopy.Text = "Copy";
             this.toolCopy.Click += new System.EventHandler(this.toolCopy_Click);
             // 
@@ -227,7 +227,7 @@
             this.toolClear.BackColor = System.Drawing.Color.Black;
             this.toolClear.ForeColor = System.Drawing.Color.Green;
             this.toolClear.Name = "toolClear";
-            this.toolClear.Size = new System.Drawing.Size(102, 22);
+            this.toolClear.Size = new System.Drawing.Size(126, 32);
             this.toolClear.Text = "Clear";
             this.toolClear.Click += new System.EventHandler(this.toolClear_Click);
             // 
@@ -363,7 +363,7 @@
             this.txtProtocol.Size = new System.Drawing.Size(166, 23);
             this.txtProtocol.TabIndex = 1;
             this.txtProtocol.Text = "Unknown";
-            this.txtProtocol.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtProtocol.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel14
             // 
@@ -383,7 +383,7 @@
             this.txtEnvironment.Size = new System.Drawing.Size(166, 23);
             this.txtEnvironment.TabIndex = 3;
             this.txtEnvironment.Text = "Unknown";
-            this.txtEnvironment.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtEnvironment.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel17
             // 
@@ -402,7 +402,7 @@
             this.lblProtocol.Size = new System.Drawing.Size(166, 23);
             this.lblProtocol.TabIndex = 3;
             this.lblProtocol.Text = "Protocol:";
-            this.lblProtocol.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblProtocol.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panel15
             // 
@@ -421,7 +421,7 @@
             this.lblEnvironment.Size = new System.Drawing.Size(166, 23);
             this.lblEnvironment.TabIndex = 2;
             this.lblEnvironment.Text = "Environment:";
-            this.lblEnvironment.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblEnvironment.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panel13
             // 
@@ -440,7 +440,7 @@
             this.txtScan.Size = new System.Drawing.Size(166, 23);
             this.txtScan.TabIndex = 0;
             this.txtScan.Text = "0 minutes ago";
-            this.txtScan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtScan.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel12
             // 
@@ -459,7 +459,7 @@
             this.lblScan.Size = new System.Drawing.Size(166, 23);
             this.lblScan.TabIndex = 1;
             this.lblScan.Text = "Server Last Scanned:";
-            this.lblScan.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblScan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // pabelButtons
             // 
@@ -549,7 +549,7 @@
             this.txtTimeleft.Size = new System.Drawing.Size(166, 23);
             this.txtTimeleft.TabIndex = 0;
             this.txtTimeleft.Text = "Unknown";
-            this.txtTimeleft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtTimeleft.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel10
             // 
@@ -568,7 +568,7 @@
             this.txtNextmap.Size = new System.Drawing.Size(166, 23);
             this.txtNextmap.TabIndex = 0;
             this.txtNextmap.Text = "Unknown";
-            this.txtNextmap.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.txtNextmap.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // panel9
             // 
@@ -587,7 +587,7 @@
             this.lblTimeleft.Size = new System.Drawing.Size(166, 23);
             this.lblTimeleft.TabIndex = 0;
             this.lblTimeleft.Text = "Timeleft:";
-            this.lblTimeleft.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTimeleft.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panel8
             // 
@@ -606,7 +606,7 @@
             this.lblNextmap.Size = new System.Drawing.Size(166, 23);
             this.lblNextmap.TabIndex = 0;
             this.lblNextmap.Text = "Nextmap:";
-            this.lblNextmap.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblNextmap.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // panelOutput1
             // 
@@ -651,16 +651,6 @@
             this.lblWebAddress.TabIndex = 4;
             this.lblWebAddress.Text = "github.com/SrgjanX/SRX.HeadAdmin";
             this.lblWebAddress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // picLogo
-            // 
-            this.picLogo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picLogo.Location = new System.Drawing.Point(0, 0);
-            this.picLogo.Name = "picLogo";
-            this.picLogo.Size = new System.Drawing.Size(158, 155);
-            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picLogo.TabIndex = 1;
-            this.picLogo.TabStop = false;
             // 
             // panelServerInfo
             // 
@@ -720,7 +710,7 @@
             this.lblConnInfo.Size = new System.Drawing.Size(197, 36);
             this.lblConnInfo.TabIndex = 0;
             this.lblConnInfo.Text = "Connection Info:";
-            this.lblConnInfo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblConnInfo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // miniPanel7
             // 
@@ -763,18 +753,6 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Console";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // picMap
-            // 
-            this.picMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.picMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.picMap.Image = global::SRX.HeadAdmin.Properties.Resources.no_image_available;
-            this.picMap.Location = new System.Drawing.Point(621, 40);
-            this.picMap.Name = "picMap";
-            this.picMap.Size = new System.Drawing.Size(160, 120);
-            this.picMap.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picMap.TabIndex = 7;
-            this.picMap.TabStop = false;
             // 
             // panel3
             // 
@@ -957,7 +935,7 @@
             this.listPlayers.Dock = System.Windows.Forms.DockStyle.Fill;
             this.listPlayers.ForeColor = System.Drawing.Color.Green;
             this.listPlayers.FormattingEnabled = true;
-            this.listPlayers.ItemHeight = 11;
+            this.listPlayers.ItemHeight = 17;
             this.listPlayers.Location = new System.Drawing.Point(0, 0);
             this.listPlayers.Name = "listPlayers";
             this.listPlayers.Size = new System.Drawing.Size(190, 367);
@@ -1027,7 +1005,7 @@
             this.txtCommand.Location = new System.Drawing.Point(0, 0);
             this.txtCommand.MaxLength = 1024;
             this.txtCommand.Name = "txtCommand";
-            this.txtCommand.Size = new System.Drawing.Size(546, 27);
+            this.txtCommand.Size = new System.Drawing.Size(546, 40);
             this.txtCommand.TabIndex = 4;
             // 
             // panel7
@@ -1081,9 +1059,31 @@
             this.mainPanel.Size = new System.Drawing.Size(984, 486);
             this.mainPanel.TabIndex = 1;
             // 
+            // picMap
+            // 
+            this.picMap.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.picMap.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.picMap.Image = global::SRX.HeadAdmin.Properties.Resources.no_image_available;
+            this.picMap.Location = new System.Drawing.Point(621, 40);
+            this.picMap.Name = "picMap";
+            this.picMap.Size = new System.Drawing.Size(160, 120);
+            this.picMap.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picMap.TabIndex = 7;
+            this.picMap.TabStop = false;
+            // 
+            // picLogo
+            // 
+            this.picLogo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picLogo.Location = new System.Drawing.Point(0, 0);
+            this.picLogo.Name = "picLogo";
+            this.picLogo.Size = new System.Drawing.Size(158, 155);
+            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picLogo.TabIndex = 1;
+            this.picLogo.TabStop = false;
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 11F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 17F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(984, 486);
@@ -1117,12 +1117,10 @@
             this.panel8.ResumeLayout(false);
             this.panelOutput1.ResumeLayout(false);
             this.panelOutput2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.panelServerInfo.ResumeLayout(false);
             this.layoutServerInfo.ResumeLayout(false);
             this.miniPanel7.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.picMap)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.miniPanel3.ResumeLayout(false);
@@ -1138,6 +1136,8 @@
             this.panelInput1.PerformLayout();
             this.panel7.ResumeLayout(false);
             this.mainPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picMap)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.ResumeLayout(false);
 
         }
