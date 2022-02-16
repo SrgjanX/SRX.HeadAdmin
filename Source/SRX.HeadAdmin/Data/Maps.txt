@@ -1,2 +1,17 @@
 ﻿cs_assault
+cs_siege
+cs_estate
+cs_militia
+cs_office
+cs_italy
+cs_havana
+cs_747
+de_dust
 de_dust2
+de_nuke
+de_aztec
+de_cbble
+de_train
+de_chateau
+de_inferno
+de_survivor

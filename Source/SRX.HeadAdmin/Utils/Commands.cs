@@ -21,21 +21,25 @@ namespace SRX.HeadAdmin.Utils
             FormController.form1.txtConsole.Text += text + "\r\n";
         }
 
+        private static Server GetServerInstance()
+        {
+            return ServerQuery.GetServerInstance(EngineType.Source, Settings.Default.ServerIP, Settings.Default.ServerPort);
+        }
+
         #region Server Connection Functions
-        public static byte[] PrepareCommand(string command)
+        private static byte[] PrepareCommand(string command)
         {
             byte[] bufferTemp = Encoding.ASCII.GetBytes(command);
             byte[] bufferSend = new byte[bufferTemp.Length + 4];
-
-            //intial 5 characters as per standard
-            bufferSend[0] = byte.Parse("255");
-            bufferSend[1] = byte.Parse("255");
-            bufferSend[2] = byte.Parse("255");
-            bufferSend[3] = byte.Parse("255");
-
-            //copying bytes from challenge rcon to send buffer
+            
+            //Intial 5 characters as per standard
+            bufferSend[0] = 255;
+            bufferSend[1] = 255;
+            bufferSend[2] = 255;
+            bufferSend[3] = 255;
+            
+            //Copying bytes from challenge rcon to send buffer
             int j = 4;
-
             for (int i = 0; i < bufferTemp.Length; i++)
             {
                 bufferSend[j++] = bufferTemp[i];
@@ -48,20 +52,20 @@ namespace SRX.HeadAdmin.Utils
             UdpClient client = new UdpClient();
             client.Connect(Settings.Default.ServerIP, Settings.Default.ServerPort);
 
-            //sending challenge command to counter strike server 
+            //Sending challenge command to counter strike server 
             string getChallenge = "challenge rcon\n";
             byte[] bufferSend = PrepareCommand(getChallenge);
 
-            //send challenge command and get response
+            //Send challenge command and get response
             IPEndPoint remoteIpEndPoint = new IPEndPoint(IPAddress.Any, 0);
             client.Send(bufferSend, bufferSend.Length);
             byte[] bufferRec = client.Receive(ref remoteIpEndPoint);
 
-            //retrive number from challenge response 
+            //Retrive number from challenge response 
             string challenge_rcon = Encoding.ASCII.GetString(bufferRec);
             challenge_rcon = string.Join(null, Regex.Split(challenge_rcon, "[^\\d]"));
 
-            //preparing rcon command to send
+            //Preparing rcon command to send
             string command = "rcon \"" + challenge_rcon + "\" " + Settings.Default.ServerRconPassword + " " + rcon_cmd + "\n";
             bufferSend = PrepareCommand(command);
 
@@ -81,25 +85,26 @@ namespace SRX.HeadAdmin.Utils
             try
             {
                 FormController.form1.listPlayers.Items.Clear();
-                Server server = ServerQuery.GetServerInstance(EngineType.Source, Settings.Default.ServerIP, Settings.Default.ServerPort);
+                Server server = GetServerInstance();
                 ReadOnlyCollection<Player> players = server.GetPlayers();
-                short cID = 0;
-                foreach (Player i in players)
+                for (int i = 0; i < players.Count; i++)
                 {
-                    cID++;
-                    FormController.form1.listPlayers.Items.Add($"{cID.ToString()} {i.Name}");
+                    FormController.form1.listPlayers.Items.Add($"{i+1} {players[i].Name}");
                 }
                 if (FormController.form1.listPlayers.Items.Count == 0)
                 {
                     FormController.form1.listPlayers.ForeColor = Color.Red;
-                    FormController.form1.listPlayers.Items.Add("No Players Online!");
+                    FormController.form1.listPlayers.Items.Add("No players online!");
                 }
-                else FormController.form1.listPlayers.ForeColor = Color.Green;
+                else
+                {
+                    FormController.form1.listPlayers.ForeColor = Color.Green;
+                }
                 server.Dispose();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Commands.AppendConsole($"Could not list online players.");
+                AppendConsole("Could not list online players.");
             }
         }
 
@@ -107,104 +112,121 @@ namespace SRX.HeadAdmin.Utils
         {
             try
             {
-                Server server = ServerQuery.GetServerInstance(EngineType.Source, Settings.Default.ServerIP, Settings.Default.ServerPort);
-                ServerInfo si = server.GetInfo();
+                Server server = GetServerInstance();
+                ServerInfo serverInfo = server.GetInfo();
                 //Set form text:
-                FormController.form1.Text = $"{Settings.Default.ApplicationName} ({si?.Name ?? "Disconnected"})";
+                FormController.form1.Text = $"{Settings.Default.ApplicationName} ({serverInfo?.Name ?? "Disconnected"})";
                 //Count Online Players
-                FormController.form1.lblPlayers.Text = $"Online Players {si.Players}/{si.MaxPlayers}";
+                FormController.form1.lblPlayers.Text = $"Online Players {serverInfo.Players}/{serverInfo.MaxPlayers}";
                 //Print IP
-                FormController.form1.lblIP.Text = $"{Settings.Default.ServerIP}:{Settings.Default.ServerPort.ToString()}";
-                if (Commands.IsServerRunning())
-                { FormController.form1.lblServerStatus.ForeColor = System.Drawing.Color.Green; FormController.form1.lblServerStatus.Text = "Active"; }
-                else { FormController.form1.lblServerStatus.ForeColor = System.Drawing.Color.Red; FormController.form1.lblServerStatus.Text = "Inactive"; }
-                long result = PingServer();
-                FormController.form1.txtLag.Text = result.ToString();
-                if (result >= 0 && result <= 50) FormController.form1.txtLag.ForeColor = Color.Green;
-                else if (result < 0) FormController.form1.txtLag.ForeColor = Color.Red;
-                else if (result > 50 && result < 100) FormController.form1.txtLag.ForeColor = Color.Orange;
-                if (result >= 100) FormController.form1.txtLag.ForeColor = Color.Red;
+                FormController.form1.lblIP.Text = $"{Settings.Default.ServerIP}:{Settings.Default.ServerPort}";
+                if (IsServerRunning())
+                { 
+                    FormController.form1.lblServerStatus.ForeColor = Color.Green; 
+                    FormController.form1.lblServerStatus.Text = "Active"; 
+                }
+                else 
+                { 
+                    FormController.form1.lblServerStatus.ForeColor = Color.Red; 
+                    FormController.form1.lblServerStatus.Text = "Inactive"; 
+                }
+                long ping = PingServer();
+                FormController.form1.txtLag.Text = ping.ToString();
+                FormController.form1.txtLag.ForeColor = GetPingColor(ping);
                 //
-                FormController.form1.txtMap.Text = GetServerMap();
-                new Maps().LoadMapPicutre(FormController.form1.txtMap.Text);
+                string currentMap = GetServerMap();
+                FormController.form1.txtMap.Text = currentMap;
+                new Maps().LoadMapPicutre(currentMap);
                 FormController.form1.txtNextmap.Text = GetNextMap();
                 FormController.form1.txtTimeleft.Text = GetTimeLeft();
                 //
                 if (GetServerVACStatus())
-                { FormController.form1.txtVAC.ForeColor = System.Drawing.Color.Green; FormController.form1.txtVAC.Text = "Secured"; }
-                else { FormController.form1.txtVAC.ForeColor = System.Drawing.Color.Red; FormController.form1.txtVAC.Text = "NotSecured"; }
+                { 
+                    FormController.form1.txtVAC.ForeColor = Color.Green; 
+                    FormController.form1.txtVAC.Text = "Secured"; 
+                }
+                else 
+                { 
+                    FormController.form1.txtVAC.ForeColor = Color.Red; 
+                    FormController.form1.txtVAC.Text = "NotSecured"; 
+                }
                 server.Dispose();
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error Occurred", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error occurred", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
                 FormController.form1.Text = $"{Settings.Default.ApplicationName} (No server found)";
             }
         }
 
-        public static bool IsServerRunning()
+        private static Color GetPingColor(long ping)
         {
-            bool result = false;
+            if (ping >= 0 && ping <= 50)
+                return Color.Green;
+            else if (ping > 50 && ping < 100)
+                return Color.Orange;
+            else 
+                return Color.Red;
+        }
+
+        private static bool IsServerRunning()
+        {
             try
             {
-                Server server = ServerQuery.GetServerInstance(EngineType.Source, Settings.Default.ServerIP, Settings.Default.ServerPort);
-                if (Commands.PingServer() >= 0)
-                    result = true;
-                server.Dispose();
+                bool isRunning = PingServer() >= 0;
+                return isRunning;
             }
-            catch
-            {
-            }
-            return result;
+            catch { }
+            return false;
         }
 
         public static long PingServer()
         {
-            long result = 0;
             try
             {
-                Server server = ServerQuery.GetServerInstance(EngineType.Source, Settings.Default.ServerIP, Settings.Default.ServerPort);
-                result = server.Ping();
+                Server server = GetServerInstance();
+                long ping = server.Ping();
                 server.Dispose();
+                return ping;
             }
             catch
             {
-                Commands.AppendConsole("Could not ping server.");
+                AppendConsole("Could not ping server.");
             }
-            return result;
+            return 0;
         }
 
-        public static string GetServerMap()
+        private static string GetServerMap()
         {
-            string result = "Unknown";
             try
             {
-                Server server = ServerQuery.GetServerInstance(EngineType.Source, Settings.Default.ServerIP, Settings.Default.ServerPort);
-                ServerInfo si = server.GetInfo();
-                result = si.Map;
+                Server server = GetServerInstance();
+                ServerInfo serverInfo = server.GetInfo();
+                string map = serverInfo.Map;
                 server.Dispose();
+                return map;
             }
             catch { }
-            return result;
+            return "Unknown";
         }
 
-        public static bool GetServerVACStatus()
+        private static bool GetServerVACStatus()
         {
-            bool result = false;
             try
             {
-                Server server = ServerQuery.GetServerInstance(EngineType.Source, Settings.Default.ServerIP, Settings.Default.ServerPort);
-                ServerInfo si = server.GetInfo();
-                result = si.IsSecure;
+                Server server = GetServerInstance();
+                ServerInfo serverInfo = server.GetInfo();
+                bool isSecure = serverInfo.IsSecure;
                 server.Dispose();
+                return isSecure;
             }
             catch { }
-            return result;
+            return false;
         }
 
-        public static string GetNextMap()
+        private static string GetNextMap()
         {
-            string output = Commands.SendRCON("amx_nextmap");
+            string output = SendRCON("amx_nextmap");
             string result = string.Empty;
             for (int i = 0; i < output.Count(); i++)
             {
@@ -214,9 +236,9 @@ namespace SRX.HeadAdmin.Utils
             return Regex.Replace(result, "\"", string.Empty);
         }
 
-        public static string GetTimeLeft()
+        private static string GetTimeLeft()
         {
-            string output = Commands.SendRCON("amx_timeleft");
+            string output = SendRCON("amx_timeleft");
             string result = string.Empty;
             for (int i = 0; i < output.Count(); i++)
             {
@@ -228,69 +250,52 @@ namespace SRX.HeadAdmin.Utils
 
         public static string GetServerEnvironment()
         {
-            string result = "Unknown";
             try
             {
-                Server server = ServerQuery.GetServerInstance(EngineType.Source, Settings.Default.ServerIP, Settings.Default.ServerPort);
-                ServerInfo si = server.GetInfo();
-                result = si.Environment;
+                Server server = GetServerInstance();
+                ServerInfo serverInfo = server.GetInfo();
+                string environment = serverInfo.Environment;
                 server.Dispose();
+                return environment;
             }
             catch
             {
-                Commands.AppendConsole($"Could not read server environment.");
+                AppendConsole("Could not read server environment.");
             }
-            return result;
+            return "Unknown";
         }
 
         public static byte GetServerProtocol()
         {
-            byte result = 0;
             try
             {
-                Server server = ServerQuery.GetServerInstance(EngineType.Source, Settings.Default.ServerIP, Settings.Default.ServerPort);
-                ServerInfo si = server.GetInfo();
-                result = si.Protocol;
+                Server server = GetServerInstance();
+                ServerInfo serverInfo = server.GetInfo();
+                byte protocol = serverInfo.Protocol;
                 server.Dispose();
+                return protocol;
             }
             catch
             {
-                Commands.AppendConsole($"Could not read server protocol.");
+                AppendConsole("Could not read server protocol.");
             }
-            return result;
+            return 0;
         }
 
         public static string GetServerVersion()
         {
-            string result = string.Empty;
             try
             {
-                Server server = ServerQuery.GetServerInstance(EngineType.Source, Settings.Default.ServerIP, Settings.Default.ServerPort);
-                ServerInfo si = server.GetInfo();
-                result = si.GameVersion;
+                Server server = GetServerInstance();
+                ServerInfo serverInfo = server.GetInfo();
+                string version = serverInfo.GameVersion;
                 server.Dispose();
             }
             catch
             {
-                Commands.AppendConsole($"Could not read server version.");
+                AppendConsole("Could not read server version.");
             }
-            return result;
-        }
-
-        public static string GetHostname()
-        {
-            string result = "";
-            try
-            {
-                Server server = ServerQuery.GetServerInstance(EngineType.Source, Settings.Default.ServerIP, Settings.Default.ServerPort);
-                result = server?.GetInfo()?.Name;
-                server.Dispose();
-            }
-            catch
-            {
-                Commands.AppendConsole("Could not get server hostname.");
-            }
-            return result;
+            return string.Empty;
         }
     }
 }

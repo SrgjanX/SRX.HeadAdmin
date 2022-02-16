@@ -151,7 +151,7 @@ namespace SRX.HeadAdmin.Forms
                     string cmd = "amx_slay " + "\"" + nickname + "\"";
                     Commands.SendRCON(cmd);
                     txtSelectedPlayer.Text = "None";
-                    Logs.AppendLogs(LogsType.SlayLogs, "Player \"" + nickname + "\" has been slayed.");
+                    Logs.AppendLogs(LogsType.Slay, "Player \"" + nickname + "\" has been slayed.");
                     Commands.AppendConsole(">> Slay command executed on " + nickname);
                 }
                 catch { Commands.AppendConsole(">> Invalid nickname!"); }
@@ -168,7 +168,7 @@ namespace SRX.HeadAdmin.Forms
                     string cmd = "amx_kick " + "\"" + nickname + "\"";
                     Commands.SendRCON(cmd);
                     txtSelectedPlayer.Text = "None";
-                    Logs.AppendLogs(LogsType.KickLogs, "Player \"" + nickname + "\" has been kicked.");
+                    Logs.AppendLogs(LogsType.Kick, "Player \"" + nickname + "\" has been kicked.");
                     Commands.AppendConsole(">> Kick command executed on " + nickname);
                 }
                 catch { Commands.AppendConsole(">> Invalid nickname!"); }
@@ -189,7 +189,7 @@ namespace SRX.HeadAdmin.Forms
                         string cmd = "amx_slap " + "\"" + nickname + "\" +" + Settings.Default.Temp_SlapPower + "";
                         Commands.SendRCON(cmd);
                         txtSelectedPlayer.Text = "None";
-                        Logs.AppendLogs(LogsType.SlapLogs, "Player \"" + nickname + "\" has been slapped with " + Settings.Default.Temp_SlapPower + " damage.");
+                        Logs.AppendLogs(LogsType.Slap, "Player \"" + nickname + "\" has been slapped with " + Settings.Default.Temp_SlapPower + " damage.");
                         Commands.AppendConsole(">> Slap command executed on " + nickname + " doing " + Settings.Default.Temp_SlapPower + " damage!");
                         Settings.Default.Temp_SlapPower = -1;
                     }
@@ -263,21 +263,21 @@ namespace SRX.HeadAdmin.Forms
 
                     if (Program.banMethod == BanMethod.AmxBan)
                     {
-                        Logs.AppendLogs(LogsType.BanLogs, ">> --------------------");
-                        Logs.AppendLogs(LogsType.BanLogs, ">> Ban command executed on: " + nickname + "");
-                        Logs.AppendLogs(LogsType.BanLogs, ">> Ban method: AMX Bans");
-                        Logs.AppendLogs(LogsType.BanLogs, ">> Ban time: " + Settings.Default.Temp_BanTime.ToString() + " minutes");
-                        Logs.AppendLogs(LogsType.BanLogs, ">> Reason: " + Settings.Default.Temp_BanReason);
-                        Logs.AppendLogs(LogsType.BanLogs, ">> Banned on: " + DateTime.Now.ToString("dd/MM/yyyy") + " " + DateTime.Now.ToLongTimeString());
+                        Logs.AppendLogs(LogsType.Ban, ">> --------------------");
+                        Logs.AppendLogs(LogsType.Ban, ">> Ban command executed on: " + nickname + "");
+                        Logs.AppendLogs(LogsType.Ban, ">> Ban method: AMX Bans");
+                        Logs.AppendLogs(LogsType.Ban, ">> Ban time: " + Settings.Default.Temp_BanTime.ToString() + " minutes");
+                        Logs.AppendLogs(LogsType.Ban, ">> Reason: " + Settings.Default.Temp_BanReason);
+                        Logs.AppendLogs(LogsType.Ban, ">> Banned on: " + DateTime.Now.ToString("dd/MM/yyyy") + " " + DateTime.Now.ToLongTimeString());
                     }
                     else if (Program.banMethod == BanMethod.SSBan)
                     {
-                        Logs.AppendLogs(LogsType.BanLogs, ">> --------------------");
-                        Logs.AppendLogs(LogsType.BanLogs, ">> Ban command executed on: " + nickname + "");
-                        Logs.AppendLogs(LogsType.BanLogs, ">> Ban method: screenshot bans");
-                        Logs.AppendLogs(LogsType.BanLogs, ">> Ban time: " + Settings.Default.Temp_BanTime.ToString() + " minutes");
-                        Logs.AppendLogs(LogsType.BanLogs, ">> Reason: " + Settings.Default.Temp_BanReason);
-                        Logs.AppendLogs(LogsType.BanLogs, ">> Banned on: " + DateTime.Now.ToString("dd/MM/yyyy") + " " + DateTime.Now.ToLongTimeString());
+                        Logs.AppendLogs(LogsType.Ban, ">> --------------------");
+                        Logs.AppendLogs(LogsType.Ban, ">> Ban command executed on: " + nickname + "");
+                        Logs.AppendLogs(LogsType.Ban, ">> Ban method: screenshot bans");
+                        Logs.AppendLogs(LogsType.Ban, ">> Ban time: " + Settings.Default.Temp_BanTime.ToString() + " minutes");
+                        Logs.AppendLogs(LogsType.Ban, ">> Reason: " + Settings.Default.Temp_BanReason);
+                        Logs.AppendLogs(LogsType.Ban, ">> Banned on: " + DateTime.Now.ToString("dd/MM/yyyy") + " " + DateTime.Now.ToLongTimeString());
                     }
 
 

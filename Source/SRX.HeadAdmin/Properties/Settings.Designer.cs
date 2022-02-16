@@ -25,15 +25,6 @@ namespace SRX.HeadAdmin.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool AllowNarrator {
-            get {
-                return ((bool)(this["AllowNarrator"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Data\\\\Maps.txt")]
         public string MapsFilePath {
             get {
@@ -200,6 +191,24 @@ namespace SRX.HeadAdmin.Properties {
             }
             set {
                 this["Temp_IsNextMapChanged"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("dd/MM/yyyy")]
+        public string DateFormat {
+            get {
+                return ((string)(this["DateFormat"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("https://image.gametracker.com/images/maps/160x120/cs/{map}.jpg")]
+        public string MapDownloadURL {
+            get {
+                return ((string)(this["MapDownloadURL"]));
             }
         }
     }

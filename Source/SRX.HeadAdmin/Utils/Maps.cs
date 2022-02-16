@@ -1,9 +1,9 @@
 ﻿//srgjanx
 
+using SRX.HeadAdmin.Properties;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Net;
 using System.Windows.Forms;
@@ -19,7 +19,7 @@ namespace SRX.HeadAdmin.Utils
             MapList = new List<string>();
         }
 
-        public void LoadMapPicutre(string Map)
+        public void LoadMapPicutre(string map)
         {
             try
             {
@@ -27,20 +27,20 @@ namespace SRX.HeadAdmin.Utils
                     FormController.form1.picMap.Image.Dispose();
                 if (!Directory.Exists("Resources\\Maps"))
                     Directory.CreateDirectory("Resources\\Maps");
-                string file = $"Resources\\Maps\\{Map}.jpg";
+                string file = $"Resources\\Maps\\{map}.jpg";
                 if (File.Exists(file))
                 {
-                    FormController.form1.picMap.Image = Image.FromFile($"{AppDomain.CurrentDomain.BaseDirectory}Resources\\Maps\\{Map}.jpg");
+                    FormController.form1.picMap.Image = Image.FromFile($"{AppDomain.CurrentDomain.BaseDirectory}Resources\\Maps\\{map}.jpg");
                 }
                 else
                 {
-                    string location = GetMapURL(Map.ToLower());
+                    string mapURL = GetMapURL(map.ToLower());
                     using (WebClient client = new WebClient())
                     {
-                        Uri uri = new Uri(location);
+                        Uri uri = new Uri(mapURL);
                         client.Headers.Add("User-Agent: Other");
-                        client.DownloadFile(uri, $"Resources\\Maps\\{Map}.jpg");
-                        FormController.form1.picMap.Image = Image.FromFile($"{AppDomain.CurrentDomain.BaseDirectory}Resources\\Maps\\{Map}.jpg");
+                        client.DownloadFile(uri, $"Resources\\Maps\\{map}.jpg");
+                        FormController.form1.picMap.Image = Image.FromFile($"{AppDomain.CurrentDomain.BaseDirectory}Resources\\Maps\\{map}.jpg");
                     }
                 }
             }
@@ -68,11 +68,9 @@ namespace SRX.HeadAdmin.Utils
                 if (line.Length > 0 && line[0] != Properties.Settings.Default.CommentCharacter) combo.Items.Add(line);
         }
 
-        public string GetMapURL(string Map)
+        public string GetMapURL(string map)
         {
-            string link = $"https://image.gametracker.com/images/maps/160x120/cs/{Map}.jpg";
-            //return link?.Replace("https://", "http://");
-            return link;
+            return Settings.Default.MapDownloadURL.Replace("{map}", map);
         }
     }
 }

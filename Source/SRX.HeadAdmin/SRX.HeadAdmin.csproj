@@ -184,9 +184,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libraries\QueryMaster.dll" />
-    <Content Include="Logs\banlist.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Data\Maps.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
