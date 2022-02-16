@@ -34,7 +34,7 @@ namespace SRX.HeadAdmin.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Maps.txt")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data\\\\Maps.txt")]
         public string MapsFilePath {
             get {
                 return ((string)(this["MapsFilePath"]));
