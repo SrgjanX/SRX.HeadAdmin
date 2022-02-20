@@ -8,8 +8,7 @@ namespace SRX.HeadAdmin.Utils
     {
         public static void Create()
         {
-            Commands.AppendConsole(">> Events are disabled!");
-
+            //Commands.AppendConsole(">> Events are disabled!");
             //Server server = ServerQuery.GetServerInstance(EngineType.Source, Settings.Default.ServerIP, Settings.Default.ServerPort);
             //QueryMaster.Logs logs = server.GetLogs(Settings.Default.ServerPort);
             //logs.Listen(LogListener);

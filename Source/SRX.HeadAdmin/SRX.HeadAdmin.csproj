@@ -76,8 +76,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\MyServerInfo.cs" />
     <Compile Include="Utils\BanMethod.cs" />
-    <Compile Include="FormController.cs" />
     <Compile Include="Utils\ServerEvents.cs" />
     <Compile Include="Utils\Commands.cs" />
     <Compile Include="Forms\Form1.cs">

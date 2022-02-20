@@ -78,6 +78,7 @@
             this.buttonSend = new System.Windows.Forms.Button();
             this.panelOutput2 = new System.Windows.Forms.Panel();
             this.lblWebAddress = new System.Windows.Forms.Label();
+            this.picLogo = new System.Windows.Forms.PictureBox();
             this.panelServerInfo = new System.Windows.Forms.Panel();
             this.layoutServerInfo = new System.Windows.Forms.TableLayoutPanel();
             this.lblServerStatus = new System.Windows.Forms.Label();
@@ -115,7 +116,6 @@
             this.lblSelectedPlayer = new System.Windows.Forms.Label();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.picMap = new System.Windows.Forms.PictureBox();
-            this.picLogo = new System.Windows.Forms.PictureBox();
             this.contextExecuteCommand.SuspendLayout();
             this.contextConsoleOptions.SuspendLayout();
             this.panelConsole.SuspendLayout();
@@ -134,6 +134,7 @@
             this.panel8.SuspendLayout();
             this.panelOutput1.SuspendLayout();
             this.panelOutput2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.panelServerInfo.SuspendLayout();
             this.layoutServerInfo.SuspendLayout();
             this.miniPanel7.SuspendLayout();
@@ -153,7 +154,6 @@
             this.panel7.SuspendLayout();
             this.mainPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picMap)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // contextExecuteCommand
@@ -652,6 +652,17 @@
             this.lblWebAddress.Text = "github.com/SrgjanX/SRX.HeadAdmin";
             this.lblWebAddress.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // picLogo
+            // 
+            this.picLogo.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.picLogo.Image = global::SRX.HeadAdmin.Properties.Resources.ldt_logo;
+            this.picLogo.Location = new System.Drawing.Point(0, 0);
+            this.picLogo.Name = "picLogo";
+            this.picLogo.Size = new System.Drawing.Size(158, 155);
+            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.picLogo.TabIndex = 1;
+            this.picLogo.TabStop = false;
+            // 
             // panelServerInfo
             // 
             this.panelServerInfo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -1071,16 +1082,6 @@
             this.picMap.TabIndex = 7;
             this.picMap.TabStop = false;
             // 
-            // picLogo
-            // 
-            this.picLogo.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.picLogo.Location = new System.Drawing.Point(0, 0);
-            this.picLogo.Name = "picLogo";
-            this.picLogo.Size = new System.Drawing.Size(158, 155);
-            this.picLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.picLogo.TabIndex = 1;
-            this.picLogo.TabStop = false;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 17F);
@@ -1117,6 +1118,7 @@
             this.panel8.ResumeLayout(false);
             this.panelOutput1.ResumeLayout(false);
             this.panelOutput2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.panelServerInfo.ResumeLayout(false);
             this.layoutServerInfo.ResumeLayout(false);
             this.miniPanel7.ResumeLayout(false);
@@ -1137,7 +1139,6 @@
             this.panel7.ResumeLayout(false);
             this.mainPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picMap)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.picLogo)).EndInit();
             this.ResumeLayout(false);
 
         }

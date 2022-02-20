@@ -1,5 +1,6 @@
 ﻿//srgjanx
 
+using SRX.HeadAdmin.Models;
 using SRX.HeadAdmin.Properties;
 using SRX.HeadAdmin.Utils;
 using System;
@@ -13,6 +14,9 @@ namespace SRX.HeadAdmin.Forms
 {
     public partial class Form1 : Form
     {
+        //Forms:
+        private static FormLoading formLoading = new FormLoading();
+
         //Stacks:
         private Stack<string> ExecutedCommands = new Stack<string>();
         private Stack<string> LastExecCommands = new Stack<string>();
@@ -21,14 +25,25 @@ namespace SRX.HeadAdmin.Forms
         public Form1()
         {
             InitializeComponent();
-            FormController.form1 = this;
+            //FormController.form1 = this;
             Hide();
             Config cfg = new Config();
+            cfg.OnErrorOccurred += Config_OnErrorOccurred;
             cfg.ReadConfig();
             Settings.Default.ApplicationName = Settings.Default.ApplicationName.Replace("{version}", $"v{GetVersion}");
             Settings.Default.ServerIP = cfg.GetValue("ServerIP");
             Settings.Default.ServerPort = Convert.ToUInt16(cfg.GetValue("ServerPort"));
             Settings.Default.ServerRconPassword = cfg.GetValue("RCONPassword");
+        }
+
+        private void Config_OnErrorOccurred(string errorMessage)
+        {
+            AppendConsole(errorMessage);
+        }
+
+        private void Maps_OnErrorOccurred(string errorMessage)
+        {
+            AppendConsole(errorMessage);
         }
 
         private string GetVersion
@@ -40,31 +55,59 @@ namespace SRX.HeadAdmin.Forms
             }
         }
 
+        private void AppendConsole(string text)
+        {
+            txtConsole.Text += text + "\r\n";
+        }
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            FormController.formLoading.Show();
-            Commands.AppendConsole($">> {Settings.Default.ApplicationName} started!");
-            Commands.AppendConsole(">> Listing online players");
-            Commands.ListPlayersOnline();
-            Commands.UpdateForm();
-            picLogo.Image = new Bitmap(Resources.ldt_logo);
+            Commands commands = new Commands();
+            formLoading.Show();
+            AppendConsole($">> {Settings.Default.ApplicationName} started!");
+            ListOnlinePlayers(commands.GetPlayersOnline());
+            UpdateForm();
             ServerEvents.Create();
             txtCommand.Focus();
-            txtEnvironment.Text = Commands.GetServerEnvironment();
-            txtProtocol.Text = Commands.GetServerProtocol().ToString();
-            txtVersion.Text = Commands.GetServerVersion();
-            FormController.formLoading.Hide();
+            MyServerInfo myServerInfo = commands.GetInfo();
+            if(myServerInfo != null)
+            {
+                txtEnvironment.Text = myServerInfo.Environment;
+                txtProtocol.Text = myServerInfo.Protocol.ToString();
+                txtVersion.Text = myServerInfo.Version;
+            }
+            formLoading.Hide();
+        }
+
+        private void ListOnlinePlayers(List<string> playersOnline)
+        {
+            AppendConsole(">> Listing online players");
+            listPlayers.Items.Clear();
+            if (playersOnline == null || playersOnline.Count == 0)
+            {
+                listPlayers.ForeColor = Color.Red;
+                listPlayers.Items.Add("No players online!");
+            }
+            else
+            {
+                foreach(string playerOnline in playersOnline)
+                {
+                    listPlayers.Items.Add(playerOnline);
+                }
+                listPlayers.ForeColor = Color.Green;
+            }
         }
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
             if (txtCommand.Text != "")
             {
+                Commands commands = new Commands();
                 string Command = txtCommand.Text;
-                if (Commands.IsSayCommand(txtCommand.Text)) Command += " | sent via SRX.HeadAdmin.";
-                Commands.AppendConsole("Server response: ");
-                Commands.AppendConsole(Commands.SendRCON(Command));
-                Commands.AppendConsole("");
+                if (commands.IsSayCommand(txtCommand.Text)) Command += " | sent via SRX.HeadAdmin.";
+                AppendConsole("Server response: ");
+                AppendConsole(commands.SendRCON(Command));
+                AppendConsole("");
                 txtCommand.Focus();
                 ExecutedCommands.Push(txtCommand.Text);
                 txtCommand.Text = "";
@@ -149,12 +192,12 @@ namespace SRX.HeadAdmin.Forms
                 {
                     string nickname = txtSelectedPlayer.Text;
                     string cmd = "amx_slay " + "\"" + nickname + "\"";
-                    Commands.SendRCON(cmd);
+                    new Commands().SendRCON(cmd);
                     txtSelectedPlayer.Text = "None";
                     Logs.AppendLogs(LogsType.Slay, "Player \"" + nickname + "\" has been slayed.");
-                    Commands.AppendConsole(">> Slay command executed on " + nickname);
+                    AppendConsole(">> Slay command executed on " + nickname);
                 }
-                catch { Commands.AppendConsole(">> Invalid nickname!"); }
+                catch { AppendConsole(">> Invalid nickname!"); }
             }
         }
 
@@ -166,12 +209,12 @@ namespace SRX.HeadAdmin.Forms
                 {
                     string nickname = txtSelectedPlayer.Text;
                     string cmd = "amx_kick " + "\"" + nickname + "\"";
-                    Commands.SendRCON(cmd);
+                    new Commands().SendRCON(cmd);
                     txtSelectedPlayer.Text = "None";
                     Logs.AppendLogs(LogsType.Kick, "Player \"" + nickname + "\" has been kicked.");
-                    Commands.AppendConsole(">> Kick command executed on " + nickname);
+                    AppendConsole(">> Kick command executed on " + nickname);
                 }
-                catch { Commands.AppendConsole(">> Invalid nickname!"); }
+                catch { AppendConsole(">> Invalid nickname!"); }
             }
         }
 
@@ -187,14 +230,14 @@ namespace SRX.HeadAdmin.Forms
                     {
                         string nickname = txtSelectedPlayer.Text;
                         string cmd = "amx_slap " + "\"" + nickname + "\" +" + Settings.Default.Temp_SlapPower + "";
-                        Commands.SendRCON(cmd);
+                        new Commands().SendRCON(cmd);
                         txtSelectedPlayer.Text = "None";
                         Logs.AppendLogs(LogsType.Slap, "Player \"" + nickname + "\" has been slapped with " + Settings.Default.Temp_SlapPower + " damage.");
-                        Commands.AppendConsole(">> Slap command executed on " + nickname + " doing " + Settings.Default.Temp_SlapPower + " damage!");
+                        AppendConsole(">> Slap command executed on " + nickname + " doing " + Settings.Default.Temp_SlapPower + " damage!");
                         Settings.Default.Temp_SlapPower = -1;
                     }
                 }
-                catch { Commands.AppendConsole(">> Invalid nickname!"); }
+                catch { AppendConsole(">> Invalid nickname!"); }
             }
         }
 
@@ -227,14 +270,14 @@ namespace SRX.HeadAdmin.Forms
                 {
                     FormBan FB = new FormBan();
                     FB.ShowDialog();
-                    if (!Settings.Default.Temp_AllowBan) { Commands.AppendConsole(">> Ban canceled!"); return; }
+                    if (!Settings.Default.Temp_AllowBan) { AppendConsole(">> Ban canceled!"); return; }
                     string nickname = txtSelectedPlayer.Text;
                     string cmd = "";
 
 
                     if (Program.banMethod == BanMethod.None)
                     {
-                        Commands.AppendConsole("");
+                        AppendConsole("");
                         return;
                     }
                     else if (Program.banMethod == BanMethod.AmxBan)
@@ -250,14 +293,14 @@ namespace SRX.HeadAdmin.Forms
                         else cmd = "amx_ssban " + "\"" + nickname + "\" +" + 0 + " \"" + Settings.Default.Temp_BanReason + "\"";
                     }
 
-                    Commands.SendRCON(cmd);
+                    new Commands().SendRCON(cmd);
                     txtSelectedPlayer.Text = "None";
-                    Commands.AppendConsole(">> --------------------");
-                    Commands.AppendConsole(">> Ban command executed on " + nickname);
-                    Commands.AppendConsole(">> Bantime: " + Settings.Default.Temp_BanTime + " minutes");
-                    Commands.AppendConsole(">> Reason: " + Settings.Default.Temp_BanReason);
-                    Commands.AppendConsole(">> Banned on: " + DateTime.Now.ToString("dd/MM/yyyy") + " " + DateTime.Now.ToLongTimeString());
-                    Commands.AppendConsole(">> --------------------");
+                    AppendConsole(">> --------------------");
+                    AppendConsole(">> Ban command executed on " + nickname);
+                    AppendConsole(">> Bantime: " + Settings.Default.Temp_BanTime + " minutes");
+                    AppendConsole(">> Reason: " + Settings.Default.Temp_BanReason);
+                    AppendConsole(">> Banned on: " + DateTime.Now.ToString("dd/MM/yyyy") + " " + DateTime.Now.ToLongTimeString());
+                    AppendConsole(">> --------------------");
 
 
 
@@ -285,7 +328,7 @@ namespace SRX.HeadAdmin.Forms
                     Settings.Default.Temp_BanReason = "";
                     Settings.Default.Temp_AllowBan = false;
                 }
-                catch { Commands.AppendConsole(">> Invalid nickname!"); }
+                catch { AppendConsole(">> Invalid nickname!"); }
             }
         }
 
@@ -293,7 +336,7 @@ namespace SRX.HeadAdmin.Forms
         {
             FormChangeMap FCM = new FormChangeMap();
             FCM.ShowDialog();
-            Commands.AppendConsole(Settings.Default.Temp_IsMapChanged ? ">> Map successfully changed!" : ">> Map Selection Canceled!");
+            AppendConsole(Settings.Default.Temp_IsMapChanged ? ">> Map successfully changed!" : ">> Map Selection Canceled!");
         }
 
         private void txtConsole_TextChanged(object sender, EventArgs e)
@@ -351,7 +394,7 @@ namespace SRX.HeadAdmin.Forms
         private void buttonNextMap_Click(object sender, EventArgs e)
         {
             new FormChangeNextMap().ShowDialog();
-            Commands.AppendConsole(Settings.Default.Temp_IsNextMapChanged ? ">> Next map updated successfully!" : ">> Next Map Selection Canceled!");
+            AppendConsole(Settings.Default.Temp_IsNextMapChanged ? ">> Next map updated successfully!" : ">> Next Map Selection Canceled!");
         }
 
         private void buttonUnban_Click(object sender, EventArgs e)
@@ -371,14 +414,15 @@ namespace SRX.HeadAdmin.Forms
 
         private void worker_refresh_DoWork(object sender, DoWorkEventArgs e)
         {
-            //hostname
-            long lag = Commands.PingServer();
-            worker_refresh.ReportProgress(Convert.ToInt32(lag));
+            Commands commands = new Commands();
+            commands.OnActionDone += Commands_OnActionDone;
+            long ping = commands.PingServer();
+            worker_refresh.ReportProgress(Convert.ToInt32(ping));
             this.Invoke(new MethodInvoker(delegate
             {
                 buttonRefresh.Enabled = false;
-                Commands.ListPlayersOnline();
-                Commands.UpdateForm();
+                ListOnlinePlayers(commands.GetPlayersOnline());
+                UpdateForm();
                 buttonRefresh.Enabled = true;
                 Settings.Default.Temp_ScanMinutes = 0;
                 Settings.Default.Temp_ScanSeconds = 0;
@@ -387,6 +431,11 @@ namespace SRX.HeadAdmin.Forms
                 string[] playerOnline = playerInfo[2].Split('/');
                 string map = txtMap.Text.Contains("_") ? txtMap.Text.Split('_')[1] : txtMap.Text;
             }));
+        }
+
+        private void Commands_OnActionDone(string message)
+        {
+            AppendConsole(message);
         }
 
         private void worker_refresh_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -404,10 +453,113 @@ namespace SRX.HeadAdmin.Forms
         {
             if (txtSelectedPlayer.Text == "None")
             {
-                Commands.AppendConsole(">> Select player first!");
+                AppendConsole(">> Select player first!");
                 return false;
             }
             return true;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public void UpdateForm()
+        {
+            try
+            {
+                Commands commands = new Commands();
+                MyServerInfo myServerInfo = commands.GetInfo();
+                if (myServerInfo == null)
+                    throw new Exception("Could not connect to server!");
+
+                //Set form text:
+                Text = $"{Settings.Default.ApplicationName} ({myServerInfo?.HostName ?? "Disconnected"})";
+                //Count Online Players
+                lblPlayers.Text = $"Online Players {myServerInfo.Players}/{myServerInfo.MaxPlayers}";
+                //Print IP
+                lblIP.Text = $"{Settings.Default.ServerIP}:{Settings.Default.ServerPort}";
+                if (commands.IsServerRunning)
+                {
+                    lblServerStatus.ForeColor = Color.Green;
+                    lblServerStatus.Text = "Active";
+                }
+                else
+                {
+                    lblServerStatus.ForeColor = Color.Red;
+                    lblServerStatus.Text = "Inactive";
+                }
+                long ping = commands.PingServer();
+                txtLag.Text = ping.ToString();
+                txtLag.ForeColor = GetPingColor(ping);
+                txtMap.Text = myServerInfo.CurrentMap;
+                //load map image:
+                if (picMap.Image != null)
+                    picMap.Image.Dispose();
+                Maps maps = new Maps();
+                maps.OnErrorOccurred += Maps_OnErrorOccurred;
+                picMap.Image = maps.LoadMapPicutre(myServerInfo.CurrentMap);
+                //
+                txtNextmap.Text = myServerInfo.NextMap;
+                txtTimeleft.Text = myServerInfo.TimeLeft;
+                //
+                if (myServerInfo.VACStatus)
+                {
+                    txtVAC.ForeColor = Color.Green;
+                    txtVAC.Text = "Secured";
+                }
+                else
+                {
+                    txtVAC.ForeColor = Color.Red;
+                    txtVAC.Text = "NotSecured";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Error occurred", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                Text = $"{Settings.Default.ApplicationName} (No server found)";
+            }
+        }
+
+        private Color GetPingColor(long ping)
+        {
+            if (ping >= 0 && ping <= 50)
+                return Color.Green;
+            else if (ping > 50 && ping < 100)
+                return Color.Orange;
+            else
+                return Color.Red;
         }
     }
 }

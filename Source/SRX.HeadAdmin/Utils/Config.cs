@@ -8,6 +8,10 @@ namespace SRX.HeadAdmin.Utils
 {
     public class Config
     {
+        public delegate void ConfigErrorEventHandler(string errorMessage);
+
+        public event ConfigErrorEventHandler OnErrorOccurred;
+
         private Dictionary<string, string> cfg;
 
         public void ReadConfig()
@@ -50,7 +54,7 @@ namespace SRX.HeadAdmin.Utils
             }
             catch(Exception ex)
             {
-                Commands.AppendConsole(ex.Message);
+                OnErrorOccurred?.Invoke(ex.Message);
             }
             return null;
         }

@@ -21,7 +21,7 @@ namespace SRX.HeadAdmin.Forms
 
         private void buttonChangNextMap_Click(object sender, EventArgs e)
         {
-            Commands.SendRCON($"amx_cvar amx_nextmap {comboChooseMap.Text}");
+            new Commands().SendRCON($"amx_cvar amx_nextmap {comboChooseMap.Text}");
             Settings.Default.Temp_IsNextMapChanged = true;
             Close();
         }

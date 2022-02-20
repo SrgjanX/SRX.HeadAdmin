@@ -48,13 +48,13 @@ namespace SRX.HeadAdmin.Forms
             }
             else if (radioSteamID.Checked && !radioIP.Checked && Regex.IsMatch(txtInput.Text, RegexPattern_SteamID))
             {
-                Commands.SendRCON("amx_unban \"" + txtInput.Text + "\"");
+                new Commands().SendRCON("amx_unban \"" + txtInput.Text + "\"");
                 Logs.AppendLogs(LogsType.Ban, "STEAMID: \"" + txtInput.Text + "\" has been unbanned!");
                 MessageBox.Show("Player with SteamID: '"+txtInput.Text+"' has been unbanned!","Unban done",MessageBoxButtons.OK,MessageBoxIcon.Information);
             }
             else if (!radioSteamID.Checked && radioIP.Checked && Regex.IsMatch(txtInput.Text, RegexPattern_IP))
             {
-                Commands.SendRCON("amx_unban \"" + txtInput.Text+"\"");
+                new Commands().SendRCON("amx_unban \"" + txtInput.Text+"\"");
                 Logs.AppendLogs(LogsType.Ban, "IP: \"" + txtInput.Text + "\" has been unbanned!");
                 MessageBox.Show("Player with IP: '" + txtInput.Text + "' has been unbanned!", "Unban done", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
