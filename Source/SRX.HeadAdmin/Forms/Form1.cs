@@ -52,7 +52,10 @@ namespace SRX.HeadAdmin.Forms
 
         private void AppendConsole(string text)
         {
-            txtConsole.Text += text + "\r\n";
+            Invoke(new MethodInvoker(delegate
+            {
+                txtConsole.Text += text + "\r\n";
+            }));
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -156,7 +159,10 @@ namespace SRX.HeadAdmin.Forms
 
         private void buttonRefresh_Click(object sender, EventArgs e)
         {
-            worker_refresh.RunWorkerAsync();
+            if(!worker_refresh.IsBusy)
+            {
+                worker_refresh.RunWorkerAsync();
+            }
             return;
         }
 
@@ -236,67 +242,36 @@ namespace SRX.HeadAdmin.Forms
                 try
                 {
                     FormBan FB = new FormBan();
+                    FB.ShouldBanPlayer += FB_ShouldBanPlayer;
                     FB.ShowDialog();
-                    if (!Settings.Default.Temp_AllowBan) { AppendConsole(">> Ban canceled!"); return; }
-                    string nickname = txtSelectedPlayer.Text;
-                    string cmd = "";
-
-
-                    if (Program.banMethod == BanMethod.None)
-                    {
-                        AppendConsole("");
-                        return;
-                    }
-                    else if (Program.banMethod == BanMethod.AmxBan)
-                    {
-                        if (Settings.Default.Temp_BanTime >= 0)
-                            cmd = "amx_ban " + "\"" + nickname + "\" +" + Settings.Default.Temp_BanTime + " \"" + Settings.Default.Temp_BanReason + "\"";
-                        else cmd = "amx_ban " + "\"" + nickname + "\" +" + 0 + " \"" + Settings.Default.Temp_BanReason + "\"";
-                    }
-                    else if (Program.banMethod == BanMethod.SSBan)
-                    {
-                        if (Settings.Default.Temp_BanTime >= 0)
-                            cmd = "amx_ssban " + "\"" + nickname + "\" +" + Settings.Default.Temp_BanTime + " \"" + Settings.Default.Temp_BanReason + "\"";
-                        else cmd = "amx_ssban " + "\"" + nickname + "\" +" + 0 + " \"" + Settings.Default.Temp_BanReason + "\"";
-                    }
-
-                    new Commands().SendRCON(cmd);
-                    txtSelectedPlayer.Text = "None";
-                    AppendConsole(">> --------------------");
-                    AppendConsole(">> Ban command executed on " + nickname);
-                    AppendConsole(">> Bantime: " + Settings.Default.Temp_BanTime + " minutes");
-                    AppendConsole(">> Reason: " + Settings.Default.Temp_BanReason);
-                    AppendConsole(">> Banned on: " + DateTime.Now.ToString("dd/MM/yyyy") + " " + DateTime.Now.ToLongTimeString());
-                    AppendConsole(">> --------------------");
-
-
-
-                    if (Program.banMethod == BanMethod.AmxBan)
-                    {
-                        Logs.AppendLogs(LogsType.Ban, ">> --------------------");
-                        Logs.AppendLogs(LogsType.Ban, ">> Ban command executed on: " + nickname + "");
-                        Logs.AppendLogs(LogsType.Ban, ">> Ban method: AMX Bans");
-                        Logs.AppendLogs(LogsType.Ban, ">> Ban time: " + Settings.Default.Temp_BanTime.ToString() + " minutes");
-                        Logs.AppendLogs(LogsType.Ban, ">> Reason: " + Settings.Default.Temp_BanReason);
-                        Logs.AppendLogs(LogsType.Ban, ">> Banned on: " + DateTime.Now.ToString("dd/MM/yyyy") + " " + DateTime.Now.ToLongTimeString());
-                    }
-                    else if (Program.banMethod == BanMethod.SSBan)
-                    {
-                        Logs.AppendLogs(LogsType.Ban, ">> --------------------");
-                        Logs.AppendLogs(LogsType.Ban, ">> Ban command executed on: " + nickname + "");
-                        Logs.AppendLogs(LogsType.Ban, ">> Ban method: screenshot bans");
-                        Logs.AppendLogs(LogsType.Ban, ">> Ban time: " + Settings.Default.Temp_BanTime.ToString() + " minutes");
-                        Logs.AppendLogs(LogsType.Ban, ">> Reason: " + Settings.Default.Temp_BanReason);
-                        Logs.AppendLogs(LogsType.Ban, ">> Banned on: " + DateTime.Now.ToString("dd/MM/yyyy") + " " + DateTime.Now.ToLongTimeString());
-                    }
-
-
-                    Settings.Default.Temp_BanTime = 0;
-                    Settings.Default.Temp_BanReason = "";
-                    Settings.Default.Temp_AllowBan = false;
                 }
                 catch { AppendConsole(">> Invalid nickname!"); }
             }
+        }
+
+        private void FB_ShouldBanPlayer(BanMethod banMethod, int banTime, string banReason)
+        {
+            string banMethodName = "unknown";
+            switch (banMethod)
+            {
+                case BanMethod.AmxBan:
+                    banMethodName = "AMX Bans";
+                    break;
+                case BanMethod.SSBan:
+                    banMethodName = "screenshot bans";
+                    break;
+                default:
+                    AppendConsole("Unsupported ban method!");
+                    return;
+            }
+            string selectedPlayer = txtSelectedPlayer.Text;
+            new Commands().BanPlayer(banMethod, selectedPlayer, banTime, banReason);
+            Logs.AppendLogs(LogsType.Ban, ">> --------------------");
+            Logs.AppendLogs(LogsType.Ban, $">> Ban command executed on: {selectedPlayer}");
+            Logs.AppendLogs(LogsType.Ban, $">> Ban method: {banMethodName}");
+            Logs.AppendLogs(LogsType.Ban, $">> Ban time: {banTime} minutes");
+            Logs.AppendLogs(LogsType.Ban, $">> Reason: {banReason}");
+            Logs.AppendLogs(LogsType.Ban, $">> Banned on: {DateTime.Now.ToString(Settings.Default.DateFormat)} {DateTime.Now.ToLongTimeString()}");
         }
 
         private void buttonChangeMap_Click(object sender, EventArgs e)
@@ -317,8 +292,10 @@ namespace SRX.HeadAdmin.Forms
 
         private void txtConsole_TextChanged(object sender, EventArgs e)
         {
-            txtConsole.SelectionStart = txtConsole.Text.Length; //Set the current caret position at the end
-            txtConsole.ScrollToCaret(); //Now scroll it automatically
+            //Set the current caret position at the end:
+            txtConsole.SelectionStart = txtConsole.Text.Length;
+            //Now scroll it automatically:
+            txtConsole.ScrollToCaret();
         }
 
         #region Right click context buttons clicked
@@ -497,7 +474,7 @@ namespace SRX.HeadAdmin.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error occurred", MessageBoxButtons.OKCancel, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "Error occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Text = $"{Settings.Default.ApplicationName} (No server found)";
             }
         }

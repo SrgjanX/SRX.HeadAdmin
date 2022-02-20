@@ -1,6 +1,5 @@
 ﻿//srgjanx
 
-using SRX.HeadAdmin.Properties;
 using SRX.HeadAdmin.Utils;
 using System.Windows.Forms;
 
@@ -8,6 +7,9 @@ namespace SRX.HeadAdmin.Forms
 {
     public partial class FormBan : Form
     {
+        public delegate void BanEventHandler(BanMethod banMethod, int banTime, string banReason);
+        public event BanEventHandler ShouldBanPlayer;
+
         public FormBan()
         {
             InitializeComponent();
@@ -17,20 +19,18 @@ namespace SRX.HeadAdmin.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                Settings.Default.Temp_BanTime = (int.Parse(txtHours.Text)*60) + int.Parse(txtMinutes.Text);
-                Settings.Default.Temp_BanReason = txtReason.Text;
+                BanMethod banMethod = BanMethod.AmxBan;
+                int banTime = (int.Parse(txtHours.Text) * 60) + int.Parse(txtMinutes.Text);
+                string banReason = txtReason.Text;
                 if (radioAmxBan.Checked && !radioSSBan.Checked)
-                    Program.banMethod = BanMethod.AmxBan;
+                    banMethod = BanMethod.AmxBan;
                 else if (!radioAmxBan.Checked && radioSSBan.Checked)
-                    Program.banMethod = BanMethod.SSBan;
-                Settings.Default.Temp_AllowBan = true;
+                    banMethod = BanMethod.SSBan;
+                ShouldBanPlayer?.Invoke(banMethod, banTime, banReason);
                 Close();
             }
             if (e.KeyCode == Keys.Escape)
             {
-                Settings.Default.Temp_BanTime = 0;
-                Settings.Default.Temp_AllowBan = false;
-                Program.banMethod = BanMethod.None;
                 Close();
             }
         }

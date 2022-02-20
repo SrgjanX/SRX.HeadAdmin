@@ -17,7 +17,6 @@ namespace SRX.HeadAdmin.Utils
     public class Commands
     {
         public delegate void CommandsActionEventHandler(string message);
-
         public event CommandsActionEventHandler OnActionDone;
 
         private Server GetServerInstance => ServerQuery.GetServerInstance(EngineType.Source, Settings.Default.ServerIP, Settings.Default.ServerPort);
@@ -207,6 +206,29 @@ namespace SRX.HeadAdmin.Utils
             new Commands().SendRCON(cmd);
             Logs.AppendLogs(LogsType.Kick, $"Player \"{nickName}\" has been kicked.");
             message = $">> Player \"{nickName}\" has been kicked!";
+        }
+
+        public void BanPlayer(BanMethod banMethod, string nickName, string banReason)
+        {
+            BanPlayer(banMethod, nickName, 0, banReason);
+        }
+
+        public void BanPlayer(BanMethod banMethod, string nickName, int banTime, string banReason)
+        {
+            string cmd = "";
+            if (banMethod == BanMethod.AmxBan)
+            {
+                cmd = banTime >= 0
+                    ? $"amx_ban \"{nickName}\" +{banTime} \"{banReason}\""
+                    : "amx_ban " + "\"" + nickName + "\" +" + 0 + " \"" + banReason + "\"";
+            }
+            else if (banMethod == BanMethod.SSBan)
+            {
+                cmd = banTime >= 0
+                    ? "amx_ssban " + "\"" + nickName + "\" +" + banTime + " \"" + banReason + "\""
+                    : "amx_ssban " + "\"" + nickName + "\" +" + 0 + " \"" + banReason + "\"";
+            }
+            new Commands().SendRCON(cmd);
         }
 
         public void ChangeMap(string map)

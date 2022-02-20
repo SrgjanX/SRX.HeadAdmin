@@ -13,7 +13,6 @@ namespace SRX.HeadAdmin.Utils
     public class Maps
     {
         public delegate void MapsErrorEventHandler(string errorMessage);
-
         public MapsErrorEventHandler OnErrorOccurred;
 
         public List<string> MapList;

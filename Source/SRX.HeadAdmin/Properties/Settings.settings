@@ -23,15 +23,6 @@
     <Setting Name="ServerRconPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Temp_BanTime" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="Temp_BanReason" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
-    <Setting Name="Temp_AllowBan" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)">False</Value>
-    </Setting>
     <Setting Name="Temp_ScanMinutes" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>

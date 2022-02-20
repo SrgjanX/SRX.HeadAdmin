@@ -101,42 +101,6 @@ namespace SRX.HeadAdmin.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Temp_BanTime {
-            get {
-                return ((int)(this["Temp_BanTime"]));
-            }
-            set {
-                this["Temp_BanTime"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string Temp_BanReason {
-            get {
-                return ((string)(this["Temp_BanReason"]));
-            }
-            set {
-                this["Temp_BanReason"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Temp_AllowBan {
-            get {
-                return ((bool)(this["Temp_AllowBan"]));
-            }
-            set {
-                this["Temp_AllowBan"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public ushort Temp_ScanMinutes {
             get {
                 return ((ushort)(this["Temp_ScanMinutes"]));
