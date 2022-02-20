@@ -1,6 +1,5 @@
 ﻿//srgjanx
 
-using SRX.HeadAdmin.Properties;
 using System;
 using System.Windows.Forms;
 
@@ -8,6 +7,9 @@ namespace SRX.HeadAdmin.Forms
 {
     public partial class FormSlap : Form
     {
+        public delegate void SlapEventHandler(int slapPower);
+        public event SlapEventHandler ShouldSlapPlayer;
+
         public FormSlap()
         {
             InitializeComponent();
@@ -17,12 +19,16 @@ namespace SRX.HeadAdmin.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                Settings.Default.Temp_SlapPower = int.Parse(txtValue.Text);
+                //Settings.Default.Temp_SlapPower = ;
+                int slapPower = int.Parse(txtValue.Text);
+                if(slapPower > 0)
+                {
+                    ShouldSlapPlayer?.Invoke(slapPower);
+                }
                 Close();
             }
             else if (e.KeyCode == Keys.Escape)
             {
-                Settings.Default.Temp_SlapPower = -1;
                 Close();
             }
         }

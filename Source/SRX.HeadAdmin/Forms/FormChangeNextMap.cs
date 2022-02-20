@@ -1,6 +1,5 @@
 ﻿//srgjanx
 
-using SRX.HeadAdmin.Properties;
 using SRX.HeadAdmin.Utils;
 using System;
 using System.Windows.Forms;
@@ -9,6 +8,9 @@ namespace SRX.HeadAdmin.Forms
 {
     public partial class FormChangeNextMap : Form
     {
+        public delegate void MapChangeEventHandler(string map);
+        public event MapChangeEventHandler ShouldChangeNextMap;
+
         public FormChangeNextMap()
         {
             InitializeComponent();
@@ -21,14 +23,12 @@ namespace SRX.HeadAdmin.Forms
 
         private void buttonChangNextMap_Click(object sender, EventArgs e)
         {
-            new Commands().SendRCON($"amx_cvar amx_nextmap {comboChooseMap.Text}");
-            Settings.Default.Temp_IsNextMapChanged = true;
+            ShouldChangeNextMap?.Invoke(comboChooseMap.Text);
             Close();
         }
 
         private void FormChangeNextMap_Load(object sender, EventArgs e)
         {
-            Settings.Default.Temp_IsNextMapChanged = false;
             comboChooseMap.Items.Clear();
             Maps maps = new Maps();
             maps.ReadMapsText();

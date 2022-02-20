@@ -104,18 +104,6 @@
     <Compile Include="Forms\FormChangeNextMap.Designer.cs">
       <DependentUpon>FormChangeNextMap.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormExit.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FormExit.Designer.cs">
-      <DependentUpon>FormExit.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\FormLoading.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FormLoading.Designer.cs">
-      <DependentUpon>FormLoading.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\FormSlap.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -155,12 +143,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormChangeNextMap.resx">
       <DependentUpon>FormChangeNextMap.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormExit.resx">
-      <DependentUpon>FormExit.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormLoading.resx">
-      <DependentUpon>FormLoading.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormSlap.resx">
       <DependentUpon>FormSlap.cs</DependentUpon>

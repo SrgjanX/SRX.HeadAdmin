@@ -184,5 +184,39 @@ namespace SRX.HeadAdmin.Utils
                 return Regex.Replace(result, "\"", string.Empty);
             }
         }
+
+        public void SlapPlayer(string nickName, int slapPower, out string message)
+        {
+            string cmd = $"amx_slap \"{nickName}\" +{slapPower}";
+            SendRCON(cmd);
+            Logs.AppendLogs(LogsType.Slap, $"Player \"{nickName}\" has been slapped doing {slapPower} damage.");
+            message = $">> Player \"{nickName}\" has been slapped doing {slapPower} damage.";
+        }
+
+        public void SlayPlayer(string nickName, out string message)
+        {
+            string cmd = $"amx_slay \"{nickName}\"";
+            new Commands().SendRCON(cmd);
+            Logs.AppendLogs(LogsType.Slay, $"Player \"{nickName}\" has been slayed.");
+            message = $">> Player \"{nickName}\" has been slayed.";
+        }
+
+        public void KickPlayer(string nickName, out string message)
+        {
+            string cmd = $"amx_kick \"{nickName}\"";
+            new Commands().SendRCON(cmd);
+            Logs.AppendLogs(LogsType.Kick, $"Player \"{nickName}\" has been kicked.");
+            message = $">> Player \"{nickName}\" has been kicked!";
+        }
+
+        public void ChangeMap(string map)
+        {
+            new Commands().SendRCON($"amx_map {map}");
+        }
+
+        public void ChangeNextMap(string nextMap)
+        {
+            new Commands().SendRCON($"amx_cvar amx_nextmap {nextMap}");
+        }
     }
 }

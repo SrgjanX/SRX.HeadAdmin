@@ -100,18 +100,6 @@ namespace SRX.HeadAdmin.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("-1")]
-        public int Temp_SlapPower {
-            get {
-                return ((int)(this["Temp_SlapPower"]));
-            }
-            set {
-                this["Temp_SlapPower"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int Temp_BanTime {
             get {
@@ -170,30 +158,6 @@ namespace SRX.HeadAdmin.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Temp_IsMapChanged {
-            get {
-                return ((bool)(this["Temp_IsMapChanged"]));
-            }
-            set {
-                this["Temp_IsMapChanged"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool Temp_IsNextMapChanged {
-            get {
-                return ((bool)(this["Temp_IsNextMapChanged"]));
-            }
-            set {
-                this["Temp_IsNextMapChanged"] = value;
-            }
-        }
-        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("dd/MM/yyyy")]
@@ -209,6 +173,15 @@ namespace SRX.HeadAdmin.Properties {
         public string MapDownloadURL {
             get {
                 return ((string)(this["MapDownloadURL"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(" | sent via SRX.HeadAdmin.")]
+        public string SayCommandSuffix {
+            get {
+                return ((string)(this["SayCommandSuffix"]));
             }
         }
     }
