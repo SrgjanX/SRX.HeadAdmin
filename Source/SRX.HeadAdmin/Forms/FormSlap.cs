@@ -19,7 +19,6 @@ namespace SRX.HeadAdmin.Forms
         {
             if (e.KeyCode == Keys.Enter)
             {
-                //Settings.Default.Temp_SlapPower = ;
                 int slapPower = int.Parse(txtValue.Text);
                 if(slapPower > 0)
                 {

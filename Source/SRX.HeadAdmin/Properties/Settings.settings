@@ -23,12 +23,6 @@
     <Setting Name="ServerRconPassword" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="Temp_ScanMinutes" Type="System.UInt16" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
-    <Setting Name="Temp_ScanSeconds" Type="System.UInt16" Scope="User">
-      <Value Profile="(Default)">0</Value>
-    </Setting>
     <Setting Name="DateFormat" Type="System.String" Scope="Application">
       <Value Profile="(Default)">dd/MM/yyyy</Value>
     </Setting>

@@ -14,6 +14,9 @@ namespace SRX.HeadAdmin.Forms
 {
     public partial class Form1 : Form
     {
+        private ushort scanMinutes = 0;
+        private ushort scanSeconds = 0;
+
         //Stacks:
         private Stack<string> ExecutedCommands = new Stack<string>();
         private Stack<string> LastExecCommands = new Stack<string>();
@@ -95,17 +98,18 @@ namespace SRX.HeadAdmin.Forms
 
         private void buttonSend_Click(object sender, EventArgs e)
         {
-            if (txtCommand.Text != "")
+            string command = txtCommand.Text;
+            if (command != "")
             {
                 Commands commands = new Commands();
-                string Command = txtCommand.Text;
-                if (commands.IsSayCommand(txtCommand.Text)) Command += Settings.Default.SayCommandSuffix;
+                if (commands.IsSayCommand(txtCommand.Text)) 
+                    command += Settings.Default.SayCommandSuffix;
                 AppendConsole("Server response: ");
-                AppendConsole(commands.SendRCON(Command));
+                AppendConsole(commands.SendRCON(command));
                 AppendConsole("");
-                txtCommand.Focus();
                 ExecutedCommands.Push(txtCommand.Text);
                 txtCommand.Text = "";
+                txtCommand.Focus();
             }
         }
 
@@ -217,15 +221,19 @@ namespace SRX.HeadAdmin.Forms
         #region Timer Tick Events
         private void timerScan_Tick(object sender, EventArgs e)
         {
-            if (Settings.Default.Temp_ScanSeconds >= 60)
+            if (scanSeconds >= 60)
             {
-                Settings.Default.Temp_ScanMinutes++;
-                Settings.Default.Temp_ScanSeconds = 0;
+                scanMinutes++;
+                scanSeconds = 0;
             }
-            else Settings.Default.Temp_ScanSeconds++;
-            if (Settings.Default.Temp_ScanMinutes > 0)
-                txtScan.Text = Settings.Default.Temp_ScanMinutes.ToString() + " minutes " + Settings.Default.Temp_ScanSeconds.ToString() + " seconds ago";
-            else txtScan.Text = Settings.Default.Temp_ScanSeconds.ToString() + " seconds ago";
+            else 
+                scanSeconds++;
+            txtScan.Text = scanMinutes > 0
+                ? scanMinutes.ToString() + " minutes " + scanSeconds.ToString() + " seconds ago"
+                : scanSeconds.ToString() + " seconds ago";
+            txtScan.Text = scanMinutes > 0
+                ? $"{scanMinutes} minutes, {scanSeconds} seconds ago"
+                : $"{scanSeconds} seconds ago";
         }
 
         private void timerRefresh_Tick(object sender, EventArgs e)
@@ -387,8 +395,7 @@ namespace SRX.HeadAdmin.Forms
                 ListOnlinePlayers(commands.GetPlayersOnline());
                 UpdateForm();
                 buttonRefresh.Enabled = true;
-                Settings.Default.Temp_ScanMinutes = 0;
-                Settings.Default.Temp_ScanSeconds = 0;
+                scanMinutes = scanSeconds  = 0;
                 string[] timeleft = txtTimeleft.Text.Split(':');
                 string[] playerInfo = lblPlayers.Text.Split(' ');
                 string[] playerOnline = playerInfo[2].Split('/');

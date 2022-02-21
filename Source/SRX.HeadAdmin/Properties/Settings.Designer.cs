@@ -98,30 +98,6 @@ namespace SRX.HeadAdmin.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public ushort Temp_ScanMinutes {
-            get {
-                return ((ushort)(this["Temp_ScanMinutes"]));
-            }
-            set {
-                this["Temp_ScanMinutes"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public ushort Temp_ScanSeconds {
-            get {
-                return ((ushort)(this["Temp_ScanSeconds"]));
-            }
-            set {
-                this["Temp_ScanSeconds"] = value;
-            }
-        }
-        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("dd/MM/yyyy")]

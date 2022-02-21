@@ -72,7 +72,7 @@ namespace SRX.HeadAdmin.Utils
 
         public bool IsSayCommand(string command)
         {
-            return Regex.IsMatch(command, "^say ");
+            return Regex.IsMatch(command ?? string.Empty, "^say ");
         }
 
         public List<string> GetPlayersOnline()
@@ -80,7 +80,6 @@ namespace SRX.HeadAdmin.Utils
             List<string> playersOnline = null;
             try
             {
-
                 Server server = GetServerInstance;
                 ReadOnlyCollection<Player> players = server.GetPlayers();
                 playersOnline = new List<string>();
@@ -97,19 +96,7 @@ namespace SRX.HeadAdmin.Utils
             return playersOnline;
         }
 
-        public bool IsServerRunning
-        {
-            get
-            {
-                try
-                {
-                    bool isRunning = PingServer() >= 0;
-                    return isRunning;
-                }
-                catch { }
-                return false;
-            }
-        }
+        public bool IsServerRunning => PingServer() >= 0;
 
         public long PingServer()
         {
@@ -229,6 +216,14 @@ namespace SRX.HeadAdmin.Utils
                     : "amx_ssban " + "\"" + nickName + "\" +" + 0 + " \"" + banReason + "\"";
             }
             new Commands().SendRCON(cmd);
+        }
+
+        /// <summary>
+        /// Unbans player by given IP address or steam ID.
+        /// </summary>
+        public void UnbanPlayer(string ip_steamid)
+        {
+            new Commands().SendRCON($"amx_unban \"{ip_steamid}\"");
         }
 
         public void ChangeMap(string map)
