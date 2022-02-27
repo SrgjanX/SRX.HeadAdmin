@@ -182,7 +182,7 @@ namespace SRX.HeadAdmin.Utils
         public void SlayPlayer(string nickName, out string message)
         {
             string cmd = $"amx_slay \"{nickName}\"";
-            new Commands().SendRCON(cmd);
+            SendRCON(cmd);
             Logs.AppendLogs(LogsType.Slay, $"Player \"{nickName}\" has been slayed.");
             message = $">> Player \"{nickName}\" has been slayed.";
         }
@@ -190,7 +190,7 @@ namespace SRX.HeadAdmin.Utils
         public void KickPlayer(string nickName, out string message)
         {
             string cmd = $"amx_kick \"{nickName}\"";
-            new Commands().SendRCON(cmd);
+            SendRCON(cmd);
             Logs.AppendLogs(LogsType.Kick, $"Player \"{nickName}\" has been kicked.");
             message = $">> Player \"{nickName}\" has been kicked!";
         }
@@ -215,7 +215,10 @@ namespace SRX.HeadAdmin.Utils
                     ? "amx_ssban " + "\"" + nickName + "\" +" + banTime + " \"" + banReason + "\""
                     : "amx_ssban " + "\"" + nickName + "\" +" + 0 + " \"" + banReason + "\"";
             }
-            new Commands().SendRCON(cmd);
+            if (!string.IsNullOrEmpty(cmd))
+            {
+                SendRCON(cmd);
+            }
         }
 
         /// <summary>
@@ -223,17 +226,17 @@ namespace SRX.HeadAdmin.Utils
         /// </summary>
         public void UnbanPlayer(string ip_steamid)
         {
-            new Commands().SendRCON($"amx_unban \"{ip_steamid}\"");
+            SendRCON($"amx_unban \"{ip_steamid}\"");
         }
 
         public void ChangeMap(string map)
         {
-            new Commands().SendRCON($"amx_map {map}");
+            SendRCON($"amx_map {map}");
         }
 
         public void ChangeNextMap(string nextMap)
         {
-            new Commands().SendRCON($"amx_cvar amx_nextmap {nextMap}");
+            SendRCON($"amx_cvar amx_nextmap {nextMap}");
         }
     }
 }
