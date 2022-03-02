@@ -36,7 +36,8 @@ namespace SRX.HeadAdmin.Forms
 
         private void Config_OnErrorOccurred(string errorMessage)
         {
-            AppendConsole(errorMessage);
+            MessageBox.Show(errorMessage, "Error Occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            Environment.Exit(0);
         }
 
         private void Maps_OnErrorOccurred(string errorMessage)

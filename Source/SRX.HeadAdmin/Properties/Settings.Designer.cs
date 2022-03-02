@@ -64,7 +64,7 @@ namespace SRX.HeadAdmin.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("SRX.HeadAdmin {version}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("SRX.Head Admin {version}")]
         public string ApplicationName {
             get {
                 return ((string)(this["ApplicationName"]));

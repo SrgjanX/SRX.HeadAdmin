@@ -15,7 +15,7 @@
       <Value Profile="(Default)">0.0.0.0</Value>
     </Setting>
     <Setting Name="ApplicationName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">SRX.HeadAdmin {version}</Value>
+      <Value Profile="(Default)">SRX.Head Admin {version}</Value>
     </Setting>
     <Setting Name="ServerPort" Type="System.UInt16" Scope="User">
       <Value Profile="(Default)">27015</Value>

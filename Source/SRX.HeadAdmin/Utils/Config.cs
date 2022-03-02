@@ -16,41 +16,45 @@ namespace SRX.HeadAdmin.Utils
 
         public void ReadConfig()
         {
-            Dictionary<string, string> cfg = new Dictionary<string, string>();
-            string[] lines = File.ReadAllLines(Properties.Settings.Default.ConfigFilePath);
-            foreach(string line in lines)
+            try
             {
-                if(!string.IsNullOrEmpty(line) && !line.StartsWith(";"))
+                Dictionary<string, string> cfg = new Dictionary<string, string>();
+                string[] lines = File.ReadAllLines(Properties.Settings.Default.ConfigFilePath);
+                foreach (string line in lines)
                 {
-                    string key = "";
-                    string val = "";
-                    bool readKey = true;
-                    foreach(char x in line)
+                    if (!string.IsNullOrEmpty(line) && !line.StartsWith(";"))
                     {
-                        if(x == '=')
+                        string key = "";
+                        string val = "";
+                        bool readKey = true;
+                        foreach (char x in line)
                         {
-                            if(readKey)
+                            if (x == '=' && readKey)
                             {
                                 readKey = false;
                                 continue;
                             }
+                            if (readKey)
+                                key += x;
+                            else
+                                val += x;
                         }
-                        if (readKey)
-                            key += x;
-                        else
-                            val += x;
+                        cfg.Add(key, val);
                     }
-                    cfg.Add(key, val);
                 }
+                this.cfg = cfg;
             }
-            this.cfg = cfg;
+            catch (Exception ex)
+            {
+                OnErrorOccurred?.Invoke(ex.Message);
+            }
         }
 
         public string GetValue(string Variable)
         {
             try
             {
-                return cfg[Variable];
+                return cfg?[Variable];
             }
             catch(Exception ex)
             {

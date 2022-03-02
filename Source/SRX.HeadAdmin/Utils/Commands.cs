@@ -21,7 +21,6 @@ namespace SRX.HeadAdmin.Utils
 
         private Server GetServerInstance => ServerQuery.GetServerInstance(EngineType.Source, Settings.Default.ServerIP, Settings.Default.ServerPort);
 
-        #region Server Connection Functions
         private byte[] PrepareCommand(string command)
         {
             byte[] bufferTemp = Encoding.ASCII.GetBytes(command);
@@ -68,7 +67,6 @@ namespace SRX.HeadAdmin.Utils
             bufferRec = client.Receive(ref remoteIpEndPoint);
             return Encoding.ASCII.GetString(bufferRec);
         }
-        #endregion
 
         public bool IsSayCommand(string command)
         {
@@ -203,17 +201,14 @@ namespace SRX.HeadAdmin.Utils
         public void BanPlayer(BanMethod banMethod, string nickName, int banTime, string banReason)
         {
             string cmd = "";
+            banTime = banTime < 0 ? 0 : banTime;
             if (banMethod == BanMethod.AmxBan)
             {
-                cmd = banTime >= 0
-                    ? $"amx_ban \"{nickName}\" +{banTime} \"{banReason}\""
-                    : "amx_ban " + "\"" + nickName + "\" +" + 0 + " \"" + banReason + "\"";
+                cmd = $"amx_ban \"{nickName}\" +{banTime} \"{banReason}\"";
             }
             else if (banMethod == BanMethod.SSBan)
             {
-                cmd = banTime >= 0
-                    ? "amx_ssban " + "\"" + nickName + "\" +" + banTime + " \"" + banReason + "\""
-                    : "amx_ssban " + "\"" + nickName + "\" +" + 0 + " \"" + banReason + "\"";
+                cmd = $"amx_ssban \"{nickName}\" +{banTime} \"{banReason}\"";
             }
             if (!string.IsNullOrEmpty(cmd))
             {
