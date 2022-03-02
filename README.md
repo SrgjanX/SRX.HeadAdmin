@@ -28,7 +28,7 @@ Every kind of help is appreciated, even whitespace fixes.
 Also note that there are a ton of AMX mod X commands that can be implemented in this app to make it richer.
 
 # How to use
-Just copy the output from Debug/Release into another folder, open the config and set IP address, port and RCON password from your server and run the application.
+Open and build the project, set configuration to release, copy the output from **Release** into another folder with your choice, open the **Config.txt** and set IP address, port and RCON password from your server and run the application.
 
 # How to debug from visual studio
-Build the project, edit the config file in the bin/debug or bin/release folder and run the project.
+Build the project, edit the config file in the bin/debug or bin/release folder depending on your configuration and run the project.
