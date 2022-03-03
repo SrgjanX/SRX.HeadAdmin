@@ -19,6 +19,8 @@ Now I wanted to make it opensource so if anyone wants to use it and also improve
 - Ban/Unban
 
 # Can I help to improve it and/or fix bugs?
+First of all, if you are willing to help but don't have a server, contact me I will give you a test server with RCON access.
+
 As this is very beginner friendly project, everyone can contribute to this project.
 All you need is a passion for the game Counter-Strike :)
 
