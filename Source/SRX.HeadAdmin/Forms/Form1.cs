@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Net;
 using System.Reflection;
 using System.Windows.Forms;
 
@@ -29,7 +30,13 @@ namespace SRX.HeadAdmin.Forms
             cfg.OnErrorOccurred += Config_OnErrorOccurred;
             cfg.ReadConfig();
             Settings.Default.ApplicationName = Settings.Default.ApplicationName.Replace("{version}", $"v{GetVersion}");
-            Settings.Default.ServerIP = cfg.GetValue("ServerIP");
+
+            // if serverIP is a domain, i resolve it
+            var serverIP = cfg.GetValue("ServerIP");
+            if (Uri.CheckHostName(serverIP) == UriHostNameType.Dns)
+                serverIP = Dns.GetHostEntry(serverIP).AddressList[0].ToString();
+            Settings.Default.ServerIP = serverIP;
+
             Settings.Default.ServerPort = Convert.ToUInt16(cfg.GetValue("ServerPort"));
             Settings.Default.ServerRconPassword = cfg.GetValue("RCONPassword");
         }
